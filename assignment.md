@@ -1,12 +1,13 @@
 # Debug Operations in Kubernetes
 
-This page provides an overview of how to debug your pods in Kubernetes. This document is not comprehensive, but provides 
+This document is a reference guide for basic debugging of your Kubernetes pods. While this document is not comprehensive, it will provide a high-level overview of the most common ways to troubleshoot your pods with the `kubectl` command. 
 
 The [`kubectl` command](https://kubernetes.io/docs/reference/kubectl/) is the Kubernetes Command Line Interface (CLI) tool. This command uses the [Kubernetes API](https://kubernetes.io/docs/concepts/overview/kubernetes-api/) to communicate with your cluster's control plane. You can use this command to interact with Kubernetes in the CLI. 
 
-## Display Current Pods
 
-Review the pods in your Kubernetes cluster to confirm that they operate as expected. 
+## Review Your Current Pods
+
+Review the pods in your Kubernetes cluster to confirm that they operate as expected.
 
 Use the following command to return a list of your currently active pods:
 
@@ -29,14 +30,14 @@ my-app-59854d5646-g7n6c                1/1     Running   0          124m
 
 The STATUS field contains the current phase of your pods. If a pod is supposed to be active and displays a status other than `Running`, then you may need to investigate further. 
 
-## Display Log Files
+## Review Your Log Files
 
-Reviewing the logs for your pods allows you to identify any errors or warnings. 
+Review your pod's logs to identify any errors or warnings. Reviewing your pod's logs can also ensure that your pod is operating normally. 
 
 Use the following command to display a pod's logs:
 
 ```shell
-kubectl logs <pod>
+kubectl logs <pod> 
 ```
 
 Your command might resemble the following example:
@@ -56,27 +57,34 @@ kubectl logs app3
 2025/09/28 19:15:22 [notice] 1#1: start worker process 32
 ```
 
-## Debug your Pod
+## Interact with Your Pod
 
-If your pod is still not working correctly
+Use the `kubectl exec` command to issue commands directly to your pod's containers, review configuration files, or log in to an interactive shell. This can help you ensure that no other errors exist on the system.
 
+Use the following command to interact with your pod:
 
-`kubectl exec <pod> `
+```shell
+kubectl exec <pod> [-c <container>] [<flags>] -- <command>
+```
 
-## Debug your Pod
+Your command might resemble one of the following examples:
 
+| Command                               | Description                                   |
+|---------------------------------------|-----------------------------------------------|
+| `kubectl exec -it <pod> -- bash`      | Opens an interactive shell inside your pod.   |
+| `kubectl exec <pod> -- ls /`          | Lists the contents of the root directory.     |
+| `kubectl exec <pod> -- env`           | Shows the container’s environment variables.  |
 
-`kubectl debug`
+## Create a Copy of Your Pod
 
+If your pod will not start, is crashing repeatedly, or does not have an interactive shell, use the `kubectl debug` command. This command creates a clone of the specified pod and lets you work on a clean copy of your pod. Use this to debug a pod without worrying about affecting a pod in your production environment. 
 
-This command is used to retrieve the logs of a specific pod - do use this when you have to review logs or need to debug a container. Another we will discuss is the `kubectl exec` command. A command that we can use to debug a container from the inside or to explore the enviroment of the container itself.
-
-**Note:** The command `kubectl debug` is another option to considering when debugging a container. This command can be used to create a clone of a pod that does not terminate if an error is experienced inside the container. 
-
+Use the following command to start a debug pod:
+```shell
+kubectl debug <pod> [flags] [--image=<image-name>] --share-processes [--copy-to=app3-debug]
+```
 
 
 ## References
 - [The `kubectl` command](https://kubernetes.io/docs/reference/kubectl/)
-- https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#-strong-getting-started-strong-
-
 - [What is Kubernetes](https://kubernetes.io/docs/concepts/overview/)
