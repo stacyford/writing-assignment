@@ -12,7 +12,7 @@ Reviewing the pods in your Kubernetes cluster can confirm that they are active a
 
 Listing your pods can provide a quick overview of their status. 
 
-Issue the following command to return a list of your current pods:
+To return a list of your current pods, use the following command:
 
 ```shell
 kubectl get pods [--namespace <namespace>]
@@ -47,7 +47,7 @@ For more detailed information about this command, read the [`kubectl get`](https
 
 Reviewing the detailed information about your pods can provide more in-depth information about the pod's status. When you issue this command, Kubernetes will return the pod's current status, a full list of its containers, and any error messages.  For example, when you issue this command, the `Events` section might show that failed to run and why. 
 
-To review more detailed information about your pod, issue the following command:
+To review more detailed information about your pod, use the following command:
 
 ```shell
 kubectl describe pod <pod name>
@@ -95,7 +95,7 @@ For more detailed information about this command, read the [`kubectl describe`](
 
 Reviewing your pod's logs can ensure that your pod is operating normally. This is useful when you want to review what happened inside your pod. When you issue this command, Kubernetes returns the most recent log entries from your containers.
 
-Issue the following command to display your pod's logs:
+To display your pod's logs, use the following command:
 
 ```shell
 kubectl logs <pod> [-c <container>]
@@ -126,7 +126,7 @@ For more detailed information about this command, read the [`kubectl logs`](http
 
 Use the `kubectl exec` command to issue commands directly to your pod's containers, review configuration files, or log in to an interactive shell. This is useful when you need to review what is currently happening in your pod, and can help you ensure that no other errors exist on the system. Sometimes the `kubectl logs` command does not reveal any errors, but further examination of the pod's container might. 
 
-Issue the following command to interact with your pod:
+To issue commands inside and interact with your pod, use the following command:
 
 ```shell
 kubectl exec <pod> [-c <container>] [<flags>] -- <command>
@@ -140,14 +140,13 @@ Your command might resemble one of the following examples:
 | `kubectl exec <pod> -- ls /`          | List the contents of the root directory.     |
 | `kubectl exec <pod> -- env`           | Show the container’s environment variables.  |
 
-
 For more detailed information about this command, read the [`kubectl exec`](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#exec) documentation. 
 
 ## Debug Your Pod with a New Container
 
-If your pod will not start, is crashing repeatedly, or does not have an interactive shell, use the `kubectl debug` command. This command can add an [ephemeral container](https://kubernetes.io/docs/concepts/workloads/pods/ephemeral-containers/) in the specified pod or create a copy of a pod. Use this to debug a pod without worrying about affecting a pod in your production environment. 
+If your pod will not start, is crashing repeatedly, or does not have an interactive shell, use the `kubectl debug` command. This command can add an [ephemeral container](https://kubernetes.io/docs/concepts/workloads/pods/ephemeral-containers/) in the specified pod or create a copy of a pod. Use this to debug a pod without worrying about changing an existing container in your production environment. 
 
-Issue the following command to debug your pod:
+To debug your pod, use the following command:
 ```shell
 kubectl debug <pod> [command]
 ```
